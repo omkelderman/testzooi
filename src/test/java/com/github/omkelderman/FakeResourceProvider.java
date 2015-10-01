@@ -6,11 +6,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 /**
- * Created by Olle on 29-09-2015.
+ * Created by Olle on 2015-10-01.
  */
-public class FakeJsonPlaceholderAPIWrapper extends JsonPlaceholderAPIWrapper {
+public class FakeResourceProvider implements IResourceProvider {
     @Override
-    protected BufferedReader getReaderForPath(String path) throws IOException {
+    public BufferedReader getReaderForPath(String path) throws IOException {
         switch (path) {
             case "http://jsonplaceholder.typicode.com/posts?userId=1":
                 return serveUserId1();
@@ -30,7 +30,7 @@ public class FakeJsonPlaceholderAPIWrapper extends JsonPlaceholderAPIWrapper {
     }
 
     private BufferedReader serveFile(String filename) {
-        InputStream inputStream = FakeJsonPlaceholderAPIWrapper.class.getClassLoader().getResourceAsStream(filename);
+        InputStream inputStream = FakeResourceProvider.class.getClassLoader().getResourceAsStream(filename);
         return new BufferedReader(new InputStreamReader(inputStream));
     }
 }

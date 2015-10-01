@@ -16,6 +16,15 @@ import java.util.List;
  */
 public class JsonPlaceholderAPIWrapper {
     private static final String ENDPOINT = "http://jsonplaceholder.typicode.com/";
+    private IResourceProvider resourceProvider;
+
+    public JsonPlaceholderAPIWrapper() {
+        this(new ResourceProvider());
+    }
+
+    public JsonPlaceholderAPIWrapper(IResourceProvider resourceProvider) {
+        this.resourceProvider = resourceProvider;
+    }
 
     public List<String> getPostTitlesByUserId(int userId) throws IOException {
         String url = ENDPOINT + "posts?userId=" + userId;
@@ -30,14 +39,9 @@ public class JsonPlaceholderAPIWrapper {
     }
 
     private JsonElement getJsonForPath(String path) throws IOException {
-        BufferedReader reader = getReaderForPath(path);
+        BufferedReader reader = resourceProvider.getReaderForPath(path);
         JsonElement root = new JsonParser().parse(reader);
         reader.close(); //TODO close stream properly when exception thrown
         return root;
-    }
-
-    protected BufferedReader getReaderForPath(String path) throws IOException {
-        URL url = new URL(path);
-        return new BufferedReader(new InputStreamReader(url.openStream()));
     }
 }

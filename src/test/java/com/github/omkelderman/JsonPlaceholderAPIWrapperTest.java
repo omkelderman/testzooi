@@ -16,7 +16,7 @@ public class JsonPlaceholderAPIWrapperTest {
 
     @Before
     public void initialize() {
-        api = new FakeJsonPlaceholderAPIWrapper();
+        api = new JsonPlaceholderAPIWrapper(new FakeResourceProvider());
     }
 
     @Test
